@@ -1,0 +1,87 @@
+{
+  "task_id": "phys-optics-20260211-abcd",
+  "task_type": "SCP",
+  "servers": [
+    "Optics-Calculator",
+    "Python-Code-Executor",
+    "Filesystem-MCP",
+  ],
+  "instruction": "你是一名量子光学研究员，需要基于论文《Quantum teleportation coexisting with high-rate classical data traffic in optical fibers》（arXiv:2404.10738v4）的PDF原文，复现其中的关键参数计算，并评估量子-经典信号共传系统的性能。论文原文已存放在 `input_data/paper.pdf` 中。请阅读该文件，从中提取必要的实验参数（如光纤长度、波长、功率、噪声率等），然后完成以下任务：1. 计算经典信号（1547.32 nm）和量子信号（1290 nm）的光子能量（单位：焦耳）。2. 计算光纤的数值孔径（SMF-28光纤，纤芯折射率约1.47，包层约1.46）。3. 计算光纤-空气界面的反射率（光纤折射率1.47，空气折射率1.0）。4. 计算74 mW经典信号的光子通量（单位：光子/秒）。5. 分析自发拉曼散射（SpRS）噪声率与经典功率的关系，建立模型（参考论文中79 counts/s/mW @74 mW的测量值），并生成噪声率随功率（0-100 mW）变化的曲线图。6. 将所有计算结果汇总为一个综合分析报告（文本格式），报告中需包含参数总结、计算结果、系统性能评估和结论。所有生成的文件（图表、报告、结果JSON）请存放在 `artifacts/` 目录下。最终提交时，确保以下文件存在：\n- `artifacts/noise_vs_power.png`（噪声曲线图）\n- `artifacts/sprs_results.json`（SpRS计算结果）\n- `artifacts/analysis_report.txt`（综合分析报告）\n- `artifacts/final_results.json`（全部结果汇总）\n\n请自主选择和使用合适的工具完成任务，记录每一步的思维过程和工具调用。",
+  "input_data": [
+    {
+      "file_name": "paper.pdf",
+      "url": "input_data/paper.pdf",
+      "description": "arXiv:2404.10738v4 论文PDF原文节选",
+      "content_type": "pdf"
+    }
+  ],
+  "answers": [
+    {
+      "name": "classical_photon_energy",
+      "validation": {
+        "expected_type": "number",
+        "value": 1.282e-19,
+        "matching_type": "tolerance",
+        "matching_rule": 0.01e-19
+      }
+    },
+    {
+      "name": "quantum_photon_energy",
+      "validation": {
+        "expected_type": "number",
+        "value": 1.537e-19,
+        "matching_type": "tolerance",
+        "matching_rule": 0.01e-19
+      }
+    },
+    {
+      "name": "numerical_aperture",
+      "validation": {
+        "expected_type": "number",
+        "value": 0.171,
+        "matching_type": "tolerance",
+        "matching_rule": 0.01
+      }
+    },
+    {
+      "name": "sprs_noise_rate_74mW",
+      "validation": {
+        "expected_type": "number",
+        "value": 79.0,
+        "matching_type": "tolerance",
+        "matching_rule": 5.0
+      }
+    },
+    {
+      "name": "noise_analysis_chart",
+      "validation": {
+        "expected_type": "file",
+        "value": "artifacts/noise_vs_power.png",
+        "matching_type": "file_exists",
+        "matching_rule": null
+      }
+    },
+    {
+      "name": "comprehensive_report",
+      "validation": {
+        "expected_type": "file",
+        "value": "artifacts/analysis_report.txt",
+        "matching_type": "llm_judge",
+        "matching_rule": "请判断该报告中是否包含了以下关键信息：光纤长度30.2 km、经典信号光子能量1.282e-19 J、量子信号光子能量1.537e-19 J、数值孔径0.171、SpRS噪声率79.0 counts/s/mW、以及系统可行性结论。"
+      }
+    },
+    {
+      "name": "final_results_file",
+      "validation": {
+        "expected_type": "file",
+        "value": "artifacts/final_results.json",
+        "matching_type": "file_exists",
+        "matching_rule": null
+      }
+    }, 
+ ],
+  "constraints": {
+    "timeout_seconds": 900,
+    "max_steps": 20
+  }
+}
