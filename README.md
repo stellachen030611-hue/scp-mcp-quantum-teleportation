@@ -64,4 +64,3 @@ All calculations are performed using SCP tools (`Optics-Calculator`) and MCP too
 
 This project is released under the [MIT License](LICENSE).  
 The original paper is subject to its own copyright.
-```
